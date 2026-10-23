@@ -508,11 +508,13 @@
          let tvIndex = -1;
          function getMediaKey(type, id) { return `${type}-${id}`; }
          function slugify(text) { return text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, ''); }
+         const SUPABASE_URL = 'https://dysccixnyzmucuynzifl.supabase.co';
+         const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR5c2NjaXhueXptdWN1eW56aWZsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTI3Njc0NjgsImV4cCI6MjEwODM0MzQ2OH0.hylPJ11zpZbe0wDUrovRKzKmJ-Ga1qRO0m1-4EWVW4A';
          async function tmdbFetch(endpoint) {
              try {
-                 const url = `https://api.themoviedb.org/3${endpoint}`;
-                 const headers = { 'Accept': 'application/json', 'Authorization': `Bearer ${DEFAULT_API_KEY}` };
-                 const res = await fetch(url, { headers });
+                 const proxyUrl = `${SUPABASE_URL}/functions/v1/tmdb-proxy?endpoint=${encodeURIComponent(endpoint)}`;
+                 const headers = { 'Accept': 'application/json', 'Authorization': `Bearer ${SUPABASE_ANON_KEY}` };
+                 const res = await fetch(proxyUrl, { headers });
                  if (!res.ok) throw new Error('Network response failed');
                  return res;
              } catch(err) {
